@@ -1,0 +1,71 @@
+{
+  "_args": [
+    [
+      {
+        "name": "gfonts",
+        "raw": "gfonts",
+        "rawSpec": "",
+        "scope": null,
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/Chaofeng/mitbbs/client"
+    ]
+  ],
+  "_from": "gfonts@latest",
+  "_id": "gfonts@1.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/gfonts",
+  "_nodeVersion": "4.2.1",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/gfonts-1.0.0.tgz_1468536465426_0.8289756095036864"
+  },
+  "_npmUser": {
+    "email": "gfonts_user@gmail.com",
+    "name": "gfonts_user"
+  },
+  "_npmVersion": "3.9.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "gfonts",
+    "raw": "gfonts",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/gfonts/-/gfonts-1.0.0.tgz",
+  "_shasum": "9f67f2f00ed023757a27aa983392b403bb5d964c",
+  "_shrinkwrap": null,
+  "_spec": "gfonts",
+  "_where": "/Users/Chaofeng/mitbbs/client",
+  "author": "",
+  "dependencies": {},
+  "description": "",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "9f67f2f00ed023757a27aa983392b403bb5d964c",
+    "tarball": "https://registry.npmjs.org/gfonts/-/gfonts-1.0.0.tgz"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "gfonts_user@gmail.com",
+      "name": "gfonts_user"
+    }
+  ],
+  "name": "gfonts",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}

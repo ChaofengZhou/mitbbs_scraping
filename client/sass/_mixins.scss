@@ -1,0 +1,122 @@
+// Mixins
+@mixin transition-all() {
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  transition: all 0.35s;
+}
+
+@mixin background-cover() {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+@mixin flex-layout() {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+@mixin translate-x($x) {
+  -webkit-transform: translateY($x);
+  -ms-transform: translateY($x);
+  transform: translateY($x);
+}
+
+@mixin noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+@mixin container-aug-padding() {
+  .container {
+    @include hori-augument-padding(40px, 60px, 150px);
+  }
+}
+
+@mixin hori-augument-padding($mobile, $small, $large) {
+  padding: 0 $mobile;
+  @media only screen and (min-width: $break-small) {
+    padding: 0 $small;
+  }
+  @media only screen and (min-width: $break-large) {
+    padding: 0 $large;
+  }
+}
+
+@mixin verti-augument-padding($mobile, $small, $large) {
+  padding: $mobile 0;
+  @media only screen and (min-width: $break-small) {
+    padding: $small 0;
+  }
+  @media only screen and (min-width: $break-large) {
+    padding: $large 0;
+  }
+}
+
+@mixin sans-serif-font() {
+  font-family: 'Open Sans', sans-serif;
+}
+
+@mixin serif-font() {
+  font-family: 'Merriweather', serif;
+}
+
+@mixin bg-primary() {
+  background-color: $theme-primary;
+  color: #fff;
+  hr {
+    border-color: rgba(#fff, 0.3);
+    border-width: 1px;
+  }
+}
+
+@mixin button-variant($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+  @include transition-all;
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    color: $color;
+    background-color: darken($background, 5%);
+    border-color: darken($border, 7%);
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+      background-color: $background;
+      border-color: $border;
+    }
+  }
+  .badge {
+    color: $background;
+    background-color: $color;
+  }
+}

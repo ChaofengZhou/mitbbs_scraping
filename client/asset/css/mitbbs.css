@@ -1,0 +1,178 @@
+a {
+  color: #F05F40;
+  text-decoration: none;
+  margin: 0; }
+  a:hover {
+    text-decoration: underline; }
+
+.pull-right, .pull-right-down {
+  float: right; }
+
+.pull-right-down {
+  bottom: 0; }
+  .pull-right-down * {
+    padding: 0 15px; }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+input[type="number"] {
+  -moz-appearance: textfield; }
+
+html,
+body {
+  height: 100%;
+  width: 100%; }
+
+body {
+  margin: 0;
+  color: #222222;
+  font-family: Open Sans, sans-serif;
+  -webkit-font-smoothing: antialiased; }
+
+section#app {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 15px; }
+  @media screen and (min-width: 768px) {
+    section#app {
+      width: 750px; } }
+  @media screen and (min-width: 992px) {
+    section#app {
+      width: 970px; } }
+  @media screen and (min-width: 1200px) {
+    section#app {
+      width: 1170px; } }
+
+nav {
+  margin: 30px 0;
+  text-align: center; }
+  nav ul {
+    list-style: none;
+    padding: 0; }
+  nav .brand {
+    color: #555555;
+    font-size: 30px;
+    font-family: PT Serif, sans-serif; }
+
+#content {
+  position: relative; }
+
+#filter {
+  position: absolute;
+  left: 0;
+  width: 130px; }
+  @media screen and (min-width: 768px) {
+    #filter {
+      width: 170px; } }
+  #filter #sort-group {
+    margin-top: 5px;
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+    border-bottom: 0.5px solid rgba(85, 85, 85, 0.2); }
+  #filter p {
+    color: #222222;
+    margin: 10px 0; }
+    #filter p:first-child {
+      margin-top: 0; }
+    #filter p.date-filter {
+      font-size: 14px; }
+  #filter a.btn {
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    padding: 15px 0;
+    border: 1px solid #fff; }
+    #filter a.btn.active {
+      border: 1px solid #F05F40; }
+  #filter #date-group {
+    text-align: center;
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+    border-bottom: 0.5px solid rgba(85, 85, 85, 0.2);
+    font-weight: 300; }
+    #filter #date-group input {
+      box-sizing: border-box;
+      width: 170px;
+      height: 40px;
+      font-size: 14px;
+      text-align: center;
+      margin: 10px 0;
+      color: #F05F40; }
+      #filter #date-group input:focus {
+        outline: none; }
+  #filter #page-group {
+    text-align: center; }
+  #filter span {
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    text-align: center; }
+    @media screen and (min-width: 768px) {
+      #filter span {
+        width: 55px; } }
+    #filter span.page-turn {
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Chrome/Safari/Opera */
+      -khtml-user-select: none;
+      /* Konqueror */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently
+                                  not supported by any browser */
+      color: #F05F40;
+      cursor: pointer; }
+      #filter span.page-turn:hover {
+        color: #3b5998; }
+  #filter input#curr-page {
+    font-weight: 300;
+    width: 40px;
+    font-size: 16px;
+    border: 1px solid #fff;
+    text-align: center;
+    border-bottom: 1px solid #F05F40; }
+    #filter input#curr-page:focus {
+      outline: none; }
+
+#posts {
+  position: absolute;
+  top: 0;
+  left: 130px;
+  right: 0;
+  margin-right: 30px;
+  margin-bottom: 15px; }
+  @media screen and (min-width: 768px) {
+    #posts {
+      left: 170px; } }
+  #posts ul#post-list {
+    list-style: none;
+    padding-left: 30px;
+    margin: 0;
+    margin-bottom: 40px; }
+  #posts li {
+    padding-bottom: 12px;
+    font-size: 14px;
+    font-weight: 300; }
+    #posts li a {
+      font-size: 17px;
+      clear: right; }
+      #posts li a:visited {
+        color: #aeaeae; }
+
+footer {
+  z-index: -1;
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  font-size: 14px;
+  opacity: 0.5; }
+  footer p {
+    margin-top: 0; }

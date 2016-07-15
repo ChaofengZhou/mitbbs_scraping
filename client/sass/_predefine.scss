@@ -1,0 +1,35 @@
+@import "variables";
+
+a {
+  color: $theme-primary;
+  text-decoration: none;
+  margin: 0;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.pull-right {
+  // position: absolute;
+  // right: 0;
+  float: right;
+}
+
+.pull-right-down {
+  @extend .pull-right;
+  bottom: 0;
+  * {
+    padding: 0 15px;
+  }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
