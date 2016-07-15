@@ -26,18 +26,11 @@ export default class Content extends React.Component {
     var savedInputs = postStore.getSavedInputs();
     this.state = {
       posts: [],
-      sort: savedInputs ? savedInputs.sort : 'views',
-      page: savedInputs ? savedInputs.page : 1,
-      startDate: savedInputs && savedInputs.startDate ? moment(savedInputs.startDate) : null,
+      sort: savedInputs.sort,
+      page: savedInputs.page,
+      startDate: savedInputs.startDate ? moment(savedInputs.startDate) : null,
       endDate: moment()
     };
-    // this.state = {
-    //   posts: [],
-    //   sort: 'views',
-    //   page: 1,
-    //   startDate: null,
-    //   endDate: moment()
-    // };
   }
 
   onViews(e) {
@@ -79,18 +72,20 @@ export default class Content extends React.Component {
     this.updatePosts(this.state.sort, page, this.state.startDate, this.state.endDate);
   }
 
-  updatePosts(sort, page, startDate, endDate) {
+  updatePosts(sort, page, startDate, endDate, callback) {
     if(loading) return;
     loading = true;
     postStore.fetchPosts(sort, page, startDate, endDate, (res, posts) => {
       this.setState({sort: sort, posts: posts, page: page, startDate: startDate, endDate: endDate});
       postStore.preFetch(sort, page, startDate, endDate);
+      if(callback) callback();
     });
   }
 
   componentDidMount() {
-    this.updatePosts(this.state.sort, this.state.page, this.state.startDate, this.state.endDate);
-    postStore.initPreFetch(this.state.startDate, this.state.endDate);
+    this.updatePosts(this.state.sort, this.state.page, this.state.startDate, this.state.endDate, () => {
+      postStore.initPreFetch(this.state.page, this.state.startDate, this.state.endDate);  
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -138,7 +133,3 @@ export default class Content extends React.Component {
     );
   }
 };
-
-        // <p>Created Date</p>
-        // <p className='date-filter'>From</p>
-        // <p className='date-filter'>To</p>

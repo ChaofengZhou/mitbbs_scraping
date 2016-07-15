@@ -66,46 +66,11 @@
 
 	var _PostList2 = _interopRequireDefault(_PostList);
 
-	var _Footer = __webpack_require__(275);
+	var _Footer = __webpack_require__(274);
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// var AppRouter = (
-	//   <Router history={browserHistory}>
-	//     <Route path="/" component={Index}>
-	//       <IndexRoute component={MainApp} />
-	//       <Route path="signin" component={Signin} />
-	//       <Route path="signup" component={Signup} />
-	//       <Route path="logout" component={Logout} />
-	//       <Route path="dashboard" component={MainApp} />
-	//       <Route path="settings" component={Settings}>
-	//         <IndexRedirect to="account" />
-	//         <Route path="account" component={LocalAccount} />
-	//         <Route path="social" component={SocialAccount} />
-	//         <Route path="notification" component={Notification} />
-	//         <Route path="about" component={About} />
-	//       </Route>
-	//       <Route path='*' component={NotFound} />
-	//     </Route>
-	//   </Router>
-	// );
-
-	// import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router';
-	// import auth from './controller/auth';
-	// import Index from './components/index/Index.jsx';
-	// import Welcome from './components/index/Welcome.jsx';
-	// import NotFound from './components/index/NotFound.jsx';
-	// import Signup from './components/auth/Signup.jsx';
-	// import Signin from './components/auth/Signin.jsx';
-	// import Logout from './components/auth/Logout.jsx';
-	// import MainApp from './components/query/MainApp.jsx';
-	// import Settings from './components/settings/Settings.jsx';
-	// import LocalAccount from './components/settings/LocalAccount.jsx';
-	// import SocialAccount from './components/settings/SocialAccount.jsx';
-	// import Notification from './components/settings/Notification.jsx';
-	// import About from './components/settings/About.jsx';
 
 	var App = _react2.default.createElement(
 	  'div',
@@ -20114,18 +20079,11 @@
 	    var savedInputs = _post2.default.getSavedInputs();
 	    _this.state = {
 	      posts: [],
-	      sort: savedInputs ? savedInputs.sort : 'views',
-	      page: savedInputs ? savedInputs.page : 1,
-	      startDate: savedInputs && savedInputs.startDate ? (0, _moment2.default)(savedInputs.startDate) : null,
+	      sort: savedInputs.sort,
+	      page: savedInputs.page,
+	      startDate: savedInputs.startDate ? (0, _moment2.default)(savedInputs.startDate) : null,
 	      endDate: (0, _moment2.default)()
 	    };
-	    // this.state = {
-	    //   posts: [],
-	    //   sort: 'views',
-	    //   page: 1,
-	    //   startDate: null,
-	    //   endDate: moment()
-	    // };
 	    return _this;
 	  }
 
@@ -20178,7 +20136,7 @@
 	    }
 	  }, {
 	    key: 'updatePosts',
-	    value: function updatePosts(sort, page, startDate, endDate) {
+	    value: function updatePosts(sort, page, startDate, endDate, callback) {
 	      var _this2 = this;
 
 	      if (loading) return;
@@ -20186,13 +20144,17 @@
 	      _post2.default.fetchPosts(sort, page, startDate, endDate, function (res, posts) {
 	        _this2.setState({ sort: sort, posts: posts, page: page, startDate: startDate, endDate: endDate });
 	        _post2.default.preFetch(sort, page, startDate, endDate);
+	        if (callback) callback();
 	      });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.updatePosts(this.state.sort, this.state.page, this.state.startDate, this.state.endDate);
-	      _post2.default.initPreFetch(this.state.startDate, this.state.endDate);
+	      var _this3 = this;
+
+	      this.updatePosts(this.state.sort, this.state.page, this.state.startDate, this.state.endDate, function () {
+	        _post2.default.initPreFetch(_this3.state.page, _this3.state.startDate, _this3.state.endDate);
+	      });
 	    }
 	  }, {
 	    key: 'componentDidUpdate',
@@ -20280,10 +20242,6 @@
 
 	exports.default = Content;
 	;
-
-	// <p>Created Date</p>
-	// <p className='date-filter'>From</p>
-	// <p className='date-filter'>To</p>
 
 /***/ },
 /* 166 */
@@ -34597,7 +34555,7 @@
 	  value: true
 	});
 
-	var _appHttp = __webpack_require__(274);
+	var _appHttp = __webpack_require__(275);
 
 	var _appHttp2 = _interopRequireDefault(_appHttp);
 
@@ -34618,8 +34576,7 @@
 	    }
 	    var _startDate = startDate ? (0, _moment2.default)(startDate._d).format('YYYY-MM-DD') : '2006-1-1';
 	    var _endDate = endDate ? (0, _moment2.default)(endDate._d).add(1, 'days').format('YYYY-MM-DD') : (0, _moment2.default)().add(1, 'days').format('YYYY-MM-DD');
-	    var prefix = location.port === 8000 ? '' : 'http://localhost:8000';
-	    var url = prefix + '/api/posts/' + sort + '/' + _startDate + '/' + _endDate + '/' + page;
+	    var url = '/api/posts/' + sort + '/' + _startDate + '/' + _endDate + '/' + page;
 	    _appHttp2.default._get(url, function (err, res) {
 	      if (err) return;
 	      postsCache[sort + page + startDate + endDate] = res;
@@ -34634,106 +34591,24 @@
 	  getPostsCache: function getPostsCache(sort, page, startDate, endDate) {
 	    return postsCache[sort + page + startDate + endDate];
 	  },
-	  initPreFetch: function initPreFetch(startDate, endDate) {
-	    this.fetchPosts('replies', 1, startDate, endDate, function (err, res) {});
-	    this.fetchPosts('createDate', 1, startDate, endDate, function (err, res) {});
+	  initPreFetch: function initPreFetch(page, startDate, endDate) {
+	    this.fetchPosts('replies', page, startDate, endDate, function (err, res) {});
+	    this.fetchPosts('createDate', page, startDate, endDate, function (err, res) {});
 	  },
 	  saveInputs: function saveInputs(sort, page, startDate, endDate) {
 	    var savedInputs = { sort: sort, page: page, startDate: startDate, endDate: endDate };
-	    localStorage['savedInputs'] = JSON.stringify(savedInputs);
+	    localStorage.savedInputs = JSON.stringify(savedInputs);
 	  },
 	  getSavedInputs: function getSavedInputs() {
+	    if (!localStorage.savedInputs) return { sort: 'views', page: 1, startDate: null, endDate: null };
 	    return JSON.parse(localStorage.savedInputs);
 	  }
-	};
-
-	function saveSort(sort) {
-	  localStorage['mitbbsSort'] = sort;
-	}
-
-	function saveDate(startDate, endDate) {
-	  localStorage['mitbbsStartDate'] = startDate;
-	  localStorage['mitbbsEndDate'] = endDate;
-	}
-
-	function savePage(page) {
-	  localStorage['mitbbsPage'] = page;
-	}
-
-	var stringify = function stringify(obj) {
-	  var str = '';
-	  for (var p in obj) {
-	    if (obj.hasOwnProperty(p)) {
-	      var line = p + '::' + obj[p] + '\n';
-
-	      str += line;
-	    }
-	  }
-	  return str;
 	};
 
 	exports.default = postStore;
 
 /***/ },
 /* 274 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var http = {
-	  _get: function _get(route, callback) {
-	    var xhr = xhrSetup('GET', route);
-	    xhr.onload = function () {
-	      _onload(xhr, callback);
-	    };
-	    xhr.send();
-	  },
-	  _post: function _post(route, data, callback) {
-	    var xhr = xhrSetup('POST', route);
-	    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-	    xhr.onload = function () {
-	      _onload(xhr, callback);
-	    };
-	    xhr.send(JSON.stringify(data));
-	  },
-	  _put: function _put(route, data, callback) {
-	    var xhr = xhrSetup('PUT', route);
-	    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-	    xhr.onload = function () {
-	      _onload(xhr, callback);
-	    };
-	    xhr.send(JSON.stringify(data));
-	  },
-	  _delete: function _delete(route, callback) {
-	    var xhr = xhrSetup('DELETE', route);
-	    xhr.onload = function () {
-	      _onload(xhr, callback);
-	    };
-	    xhr.send();
-	  }
-	};
-
-	function xhrSetup(method, route) {
-	  var xhr = new XMLHttpRequest();
-	  xhr.open(method, route, true);
-	  return xhr;
-	}
-
-	function _onload(xhr, callback) {
-	  var res = {};
-	  try {
-	    res = JSON.parse(xhr.responseText);
-	  } catch (e) {}
-	  callback(xhr.status >= 200 && xhr.status < 400 ? null : res, res);
-	}
-
-	exports.default = http;
-
-/***/ },
-/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34785,6 +34660,65 @@
 
 	exports.default = Index;
 	;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var http = {
+	  _get: function _get(route, callback) {
+	    var xhr = xhrSetup('GET', route);
+	    xhr.onload = function () {
+	      _onload(xhr, callback);
+	    };
+	    xhr.send();
+	  },
+	  _post: function _post(route, data, callback) {
+	    var xhr = xhrSetup('POST', route);
+	    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+	    xhr.onload = function () {
+	      _onload(xhr, callback);
+	    };
+	    xhr.send(JSON.stringify(data));
+	  },
+	  _put: function _put(route, data, callback) {
+	    var xhr = xhrSetup('PUT', route);
+	    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+	    xhr.onload = function () {
+	      _onload(xhr, callback);
+	    };
+	    xhr.send(JSON.stringify(data));
+	  },
+	  _delete: function _delete(route, callback) {
+	    var xhr = xhrSetup('DELETE', route);
+	    xhr.onload = function () {
+	      _onload(xhr, callback);
+	    };
+	    xhr.send();
+	  }
+	};
+
+	function xhrSetup(method, route) {
+	  var xhr = new XMLHttpRequest();
+	  var prefix = location.host === 'localhost:3010' ? 'http://localhost:8000' : '';
+	  xhr.open(method, prefix + route, true);
+	  return xhr;
+	}
+
+	function _onload(xhr, callback) {
+	  var res = {};
+	  try {
+	    res = JSON.parse(xhr.responseText);
+	  } catch (e) {}
+	  callback(xhr.status >= 200 && xhr.status < 400 ? null : res, res);
+	}
+
+	exports.default = http;
 
 /***/ }
 /******/ ]);

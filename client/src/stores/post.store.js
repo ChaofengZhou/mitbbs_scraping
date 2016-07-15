@@ -6,7 +6,7 @@ var postsCache = {};
 var postStore = {
   fetchPosts(sort, page, startDate, endDate, callback) {
     var cache = this.getPostsCache(sort, page, startDate, endDate);
-    if(cache) {
+    if (cache) {
       callback(null, cache);
       return;
     }
@@ -14,8 +14,7 @@ var postStore = {
       moment(startDate._d).format('YYYY-MM-DD') : '2006-1-1';
     var _endDate = endDate ?
       moment(endDate._d).add(1, 'days').format('YYYY-MM-DD') : moment().add(1, 'days').format('YYYY-MM-DD');
-    var prefix = location.port === 8000 ? '' : 'http://localhost:8000'
-    var url = prefix + '/api/posts/' + sort + '/' + _startDate + '/' + _endDate + '/' + page;
+    var url = '/api/posts/' + sort + '/' + _startDate + '/' + _endDate + '/' + page;
     http._get(url, function(err, res) {
       if (err) return;
       postsCache[sort + page + startDate + endDate] = res;
@@ -24,8 +23,8 @@ var postStore = {
   },
 
   preFetch(sort, page, startDate, endDate) {
-    for(var i = 1; i < 3; i++) {
-      this.fetchPosts(sort, page + i, startDate, endDate, (err, res) => {});  
+    for (var i = 1; i < 3; i++) {
+      this.fetchPosts(sort, page + i, startDate, endDate, (err, res) => {});
     }
   },
 
@@ -33,44 +32,21 @@ var postStore = {
     return postsCache[sort + page + startDate + endDate];
   },
 
-  initPreFetch(startDate, endDate) {
-    this.fetchPosts('replies', 1, startDate, endDate, (err, res) => {});
-    this.fetchPosts('createDate', 1, startDate, endDate, (err, res) => {});
+  initPreFetch(page, startDate, endDate) {
+    this.fetchPosts('replies', page, startDate, endDate, (err, res) => {});
+    this.fetchPosts('createDate', page, startDate, endDate, (err, res) => {});
   },
 
   saveInputs(sort, page, startDate, endDate) {
-    var savedInputs = {sort: sort, page: page, startDate: startDate, endDate: endDate};
-    localStorage['savedInputs'] = JSON.stringify(savedInputs);
+    var savedInputs = { sort: sort, page: page, startDate: startDate, endDate: endDate };
+    localStorage.savedInputs = JSON.stringify(savedInputs);
   },
 
   getSavedInputs() {
+    if (!localStorage.savedInputs)
+      return { sort: 'views', page: 1, startDate: null, endDate: null };
     return JSON.parse(localStorage.savedInputs);
   }
 };
-
-function saveSort(sort) {
-  localStorage['mitbbsSort'] = sort;
-}
-
-function saveDate(startDate, endDate) {
-  localStorage['mitbbsStartDate'] = startDate;
-  localStorage['mitbbsEndDate'] = endDate;
-}
-
-function savePage(page) {
-  localStorage['mitbbsPage'] = page;
-}
-
-var stringify = function(obj) {
-  var str = '';
-  for (var p in obj) {
-    if (obj.hasOwnProperty(p)) {
-      var line = p + '::' + obj[p] + '\n';
-
-      str += line;
-    }
-  }
-  return str;
-}
 
 export default postStore;

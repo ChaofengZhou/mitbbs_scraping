@@ -7,6 +7,7 @@ module.exports = {
     path: path.join(__dirname, '/asset/js'),
     filename: 'bundle.js'
   },
+  watch: true,
   module: {
     loaders: [{
       test: /\.jsx?$/,

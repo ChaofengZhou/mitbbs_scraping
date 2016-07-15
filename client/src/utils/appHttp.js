@@ -36,7 +36,8 @@ var http = {
 
 function xhrSetup(method, route) {
   var xhr = new XMLHttpRequest();
-  xhr.open(method, route, true);
+  var prefix = location.host === 'localhost:3010' ? 'http://localhost:8000' : '';
+  xhr.open(method, prefix + route, true);
   return xhr;
 }
 
@@ -44,8 +45,7 @@ function _onload(xhr, callback) {
   var res = {};
   try {
     res = JSON.parse(xhr.responseText);
-  } catch(e) {
-  }
+  } catch (e) {}
   callback(xhr.status >= 200 && xhr.status < 400 ? null : res, res);
 }
 
